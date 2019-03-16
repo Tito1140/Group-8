@@ -174,3 +174,7 @@ body { font-family: 'Fjalla One', sans-serif;
       font-family: 'Fjalla One', sans-serif;
       
     }
+    #myChart {
+      background-color: gray;
+    }
+

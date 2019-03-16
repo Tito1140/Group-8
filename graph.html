@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Fjalla+One" rel="stylesheet">
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <script src="Assets/javascript.js"></script>
+    <link rel="stylesheet" href="Assets/style.css">
+    <title>Graphs</title>
+</head>
+
+<body>
+
+    <body ng-controller="ChatController">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img src="Assets/logo.png" width="100px" height="100px" alt=""></a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="homepage.html">Homepage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="test.html">Discussion Board</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Graphs<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </nav>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Profit number</label>
+                <input type="int" class="form-control" id="profitNum" placeholder="Profit Number">
+            </div>
+            <button type="submit" id="go" class="btn btn-primary">Submit</button>
+        </form>
+        <canvas id="myChart"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyAJTH_BbEfXIo_s8Te558JvTqAqdtjVNmo",
+                authDomain: "first-firebase-84877.firebaseapp.com",
+                databaseURL: "https://first-firebase-84877.firebaseio.com",
+                projectId: "first-firebase-84877",
+                storageBucket: "first-firebase-84877.appspot.com",
+                messagingSenderId: "50801096553"
+            };
+            firebase.initializeApp(config);
+            var database = firebase.database();
+            var data = [0];
+            document.getElementById("go").onclick = function (event) {
+                event.preventDefault();
+                var dataNum = document.getElementById("profitNum").value;
+                console.log(data)
+                database.ref().push({
+                    data: dataNum
+                });
+            }
+            console.log(data)
+            database.ref().on("child_added", function (childSnapshot) {
+                var collectingData = childSnapshot.value
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+                    // The data for our dataset
+                    data: {
+                        labels: ["January", "February", "March", "April", "May"],
+                        datasets: [{
+                            label: "My First dataset",
+                            backgroundColor: 'rgb(0,128,128)',
+                            borderColor: 'rgb(0,128,128)',
+                            data: [15, 18, 21, 28, 32]
+                        }]
+                    },
+                    // Configuration options go here
+                    options: {}
+                });
+            })
+        </script>
+    </body>
+
+</html>
