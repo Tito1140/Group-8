@@ -1,13 +1,31 @@
-// var config = {
-//     apiKey: "AIzaSyCw7V_T8uK46F-BbaphQVeszrQgQ8zp0mU",
-//     authDomain: "chat-storage-dd652.firebaseapp.com",
-//     databaseURL: "https://chat-storage-dd652.firebaseio.com",
-//     projectId: "chat-storage-dd652",
-//     storageBucket: "chat-storage-dd652.appspot.com",
-//     messagingSenderId: "936324055193"
-// };
-// firebase.initializeApp(config);
+var config = {
+    apiKey: "AIzaSyC5CXhkoj1nGcSVGsXxwVwkXD3AooA1MQk",
+    authDomain: "boot-camp-test.firebaseapp.com",
+    databaseURL: "https://boot-camp-test.firebaseio.com",
+    projectId: "boot-camp-test",
+    storageBucket: "boot-camp-test.appspot.com",
+    messagingSenderId: "776555992993"
+};
+firebase.initializeApp(config);
 
+var app = angular.module('chatapp', ['firebase'])
+
+app.controller('ChatController', function ($scope, $firebaseArray) {
+
+    var ref = firebase.database().ref().child("messages")
+
+    $scope.messages = $firebaseArray(ref)
+
+    $scope.send = function () {
+
+        $scope.messages.$add({
+            messages: $scope.messageText,
+            date: Date.now()
+        })
+
+    }
+
+})
 
 
 var myNodelist = document.getElementsByTagName("LI");
